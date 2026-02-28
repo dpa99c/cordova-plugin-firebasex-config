@@ -25,14 +25,14 @@
     <platform name="android">
         <config-file target="config.xml" parent="/*">
             <feature name="FirebasexConfigPlugin">
-                <param name="android-package" value="org.anthropic.cordova.firebase.FirebasexConfigPlugin" />
+                <param name="android-package" value="org.apache.cordova.firebasex.FirebasexConfigPlugin" />
                 <param name="onload" value="true" />
             </feature>
         </config-file>
 
         <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
         <source-file src="src/android/FirebasexConfigPlugin.java"
-                     target-dir="src/org/anthropic/cordova/firebase" />
+                     target-dir="src/org/apache/cordova/firebasex" />
     </platform>
 
     <!-- iOS -->
