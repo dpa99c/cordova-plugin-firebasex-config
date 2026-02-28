@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="cordova-plugin-firebasex-config"
+        version="1.0.0">
+
+    <name>cordova-plugin-firebasex-config</name>
+    <description>Firebase Remote Config module for cordova-plugin-firebasex</description>
+    <license>MIT</license>
+    <keywords>cordova,firebase,remote config,config</keywords>
+
+    <engines>
+        <engine name="cordova" version=">=12.0.0" />
+        <engine name="cordova-android" version=">=14.0.0" />
+        <engine name="cordova-ios" version=">=7.0.0" />
+    </engines>
+
+    <dependency id="cordova-plugin-firebasex-core" />
+
+    <js-module src="www/firebasex-config.js" name="FirebasexConfigPlugin">
+        <clobbers target="FirebasexConfigPlugin" />
+    </js-module>
+
+    <!-- Android -->
+    <platform name="android">
+        <config-file target="config.xml" parent="/*">
+            <feature name="FirebasexConfigPlugin">
+                <param name="android-package" value="org.anthropic.cordova.firebase.FirebasexConfigPlugin" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+
+        <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
+        <source-file src="src/android/FirebasexConfigPlugin.java"
+                     target-dir="src/org/anthropic/cordova/firebase" />
+    </platform>
+
+    <!-- iOS -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="FirebasexConfigPlugin">
+                <param name="ios-package" value="FirebasexConfigPlugin" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/FirebasexConfigPlugin.h" />
+        <source-file src="src/ios/FirebasexConfigPlugin.m" />
+
+        <podspec>
+            <config>
+                <source url="https://cdn.cocoapods.org/" />
+            </config>
+            <pods use-frameworks="true">
+                <pod name="FirebaseRemoteConfig" spec="12.9.0"/>
+            </pods>
+        </podspec>
+    </platform>
+
+</plugin>
