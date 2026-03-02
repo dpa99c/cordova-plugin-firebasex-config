@@ -22,15 +22,31 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Cordova plugin for Firebase Remote Config on Android.
+ *
+ * <p>Provides fetching, activating, and reading Remote Config values,
+ * setting defaults, configuring fetch settings, and resetting config.
+ *
+ * @see <a href="https://firebase.google.com/docs/remote-config">Firebase Remote Config</a>
+ */
 public class FirebasexConfigPlugin extends CordovaPlugin {
 
+    /** Log tag for all messages from this plugin. */
     private static final String TAG = "FirebasexConfig";
 
+    /** Initialises the plugin. */
     @Override
     protected void pluginInitialize() {
         Log.d(TAG, "pluginInitialize");
     }
 
+    /**
+     * Dispatches Cordova actions to plugin methods.
+     *
+     * <p>Supported actions: fetch, activateFetched, fetchAndActivate, resetRemoteConfig,
+     * getValue, getInfo, getAll, setConfigSettings, setDefaults.
+     */
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         switch (action) {
@@ -69,14 +85,22 @@ public class FirebasexConfigPlugin extends CordovaPlugin {
         return false;
     }
 
+    /** Fetches Remote Config values using the default cache expiration. */
     private void fetch(CallbackContext callbackContext) {
         handleTaskOutcome(FirebaseRemoteConfig.getInstance().fetch(), callbackContext);
     }
 
+    /**
+     * Fetches Remote Config values with a custom cache expiration.
+     *
+     * @param callbackContext the Cordova callback
+     * @param cacheExpirationSeconds cache duration in seconds
+     */
     private void fetch(CallbackContext callbackContext, long cacheExpirationSeconds) {
         handleTaskOutcome(FirebaseRemoteConfig.getInstance().fetch(cacheExpirationSeconds), callbackContext);
     }
 
+    /** Activates the most recently fetched configs. Returns boolean result. */
     private void activateFetched(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -89,6 +113,7 @@ public class FirebasexConfigPlugin extends CordovaPlugin {
         });
     }
 
+    /** Fetches and activates Remote Config values in a single operation. Returns boolean result. */
     private void fetchAndActivate(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -101,6 +126,7 @@ public class FirebasexConfigPlugin extends CordovaPlugin {
         });
     }
 
+    /** Resets all Remote Config values back to their defaults. */
     private void resetRemoteConfig(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -113,6 +139,12 @@ public class FirebasexConfigPlugin extends CordovaPlugin {
         });
     }
 
+    /**
+     * Gets a single Remote Config value by key, returned as a string.
+     *
+     * @param callbackContext the Cordova callback
+     * @param key the parameter key
+     */
     private void getValue(final CallbackContext callbackContext, final String key) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -126,6 +158,10 @@ public class FirebasexConfigPlugin extends CordovaPlugin {
         });
     }
 
+    /**
+     * Gets metadata about the Remote Config instance.
+     * Returns fetchTimeMillis, lastFetchStatus, and configSettings.
+     */
     private void getInfo(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -144,6 +180,7 @@ public class FirebasexConfigPlugin extends CordovaPlugin {
         });
     }
 
+    /** Gets all Remote Config parameter values as a JSON object of key-string pairs. */
     private void getAll(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -161,6 +198,12 @@ public class FirebasexConfigPlugin extends CordovaPlugin {
         });
     }
 
+    /**
+     * Sets the fetch timeout and minimum fetch interval.
+     *
+     * @param callbackContext the Cordova callback
+     * @param args args[0]: fetchTimeout, args[1]: minimumFetchInterval (both in seconds)
+     */
     private void setConfigSettings(final CallbackContext callbackContext, final JSONArray args) throws JSONException {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -180,6 +223,12 @@ public class FirebasexConfigPlugin extends CordovaPlugin {
         });
     }
 
+    /**
+     * Sets default values for Remote Config parameters.
+     *
+     * @param callbackContext the Cordova callback
+     * @param defaults JSON object of key-value default pairs
+     */
     private void setDefaults(final CallbackContext callbackContext, final JSONObject defaults) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -192,6 +241,10 @@ public class FirebasexConfigPlugin extends CordovaPlugin {
         });
     }
 
+    /**
+     * Handles a Task outcome by sending a Cordova success or error result.
+     * Success sends with no data; failure sends the exception message.
+     */
     private void handleTaskOutcome(@NonNull Task task, CallbackContext callbackContext) {
         try {
             task.addOnCompleteListener((OnCompleteListener<Void>) task1 -> {
@@ -212,6 +265,10 @@ public class FirebasexConfigPlugin extends CordovaPlugin {
         }
     }
 
+    /**
+     * Handles a Task<Boolean> outcome by sending the boolean result (1/0)
+     * as a Cordova success, or the exception message as an error.
+     */
     private void handleTaskOutcomeWithBooleanResult(@NonNull Task<Boolean> task, CallbackContext callbackContext) {
         try {
             task.addOnCompleteListener(new OnCompleteListener<Boolean>() {
@@ -235,6 +292,17 @@ public class FirebasexConfigPlugin extends CordovaPlugin {
         }
     }
 
+    /**
+     * Converts a JSON object to a Map for use as Remote Config defaults.
+     *
+     * <p>Handles type conversion: Integer values are widened to Long,
+     * JSONArray values are converted to byte arrays (either Base64-decoded
+     * from a single string element or raw byte values).
+     *
+     * @param object the JSON defaults object
+     * @return the converted map
+     * @throws JSONException if parsing fails
+     */
     private static Map<String, Object> defaultsToMap(JSONObject object) throws JSONException {
         final Map<String, Object> map = new HashMap<String, Object>();
         for (Iterator<String> keys = object.keys(); keys.hasNext(); ) {
