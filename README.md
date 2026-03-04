@@ -1,8 +1,8 @@
-# cordova-plugin-firebasex-config
-
-[![npm version](https://img.shields.io/npm/v/cordova-plugin-firebasex-config.svg)](https://www.npmjs.com/package/cordova-plugin-firebasex-config)
+# cordova-plugin-firebasex-config [![Latest Stable Version](https://img.shields.io/npm/v/cordova-plugin-firebasex-config.svg)](https://www.npmjs.com/package/cordova-plugin-firebasex-config)
 
 Firebase Remote Config module for the [modular FirebaseX Cordova plugin suite](https://github.com/dpa99c/cordova-plugin-firebasex#modular-plugins).
+
+This plugin wraps the [Firebase Remote Config SDK](https://firebase.google.com/docs/remote-config) and provides methods to fetch and activate remote config values, retrieve remote config values, and set in-app default values for remote config parameters.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
