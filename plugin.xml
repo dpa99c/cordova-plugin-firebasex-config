@@ -18,7 +18,7 @@
     <dependency id="cordova-plugin-firebasex-core" />
 
     <js-module src="www/firebasex-config.js" name="FirebasexConfigPlugin">
-        <clobbers target="FirebasexConfigPlugin" />
+        <clobbers target="FirebasexConfig" />
     </js-module>
 
     <!-- Android -->
@@ -30,7 +30,9 @@
             </feature>
         </config-file>
 
-        <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
+        <preference name="ANDROID_FIREBASE_CONFIG_VERSION" default="23.0.1" />
+
+        <framework src="com.google.firebase:firebase-config:$ANDROID_FIREBASE_CONFIG_VERSION" />
         <source-file src="src/android/FirebasexConfigPlugin.java"
                      target-dir="src/org/apache/cordova/firebasex" />
     </platform>
@@ -47,12 +49,14 @@
         <header-file src="src/ios/FirebasexConfigPlugin.h" />
         <source-file src="src/ios/FirebasexConfigPlugin.m" />
 
+        <preference name="IOS_FIREBASE_SDK_VERSION" default="12.9.0" />
+
         <podspec>
             <config>
                 <source url="https://cdn.cocoapods.org/" />
             </config>
             <pods use-frameworks="true">
-                <pod name="FirebaseRemoteConfig" spec="12.9.0"/>
+                <pod name="FirebaseRemoteConfig" spec="$IOS_FIREBASE_SDK_VERSION"/>
             </pods>
         </podspec>
     </platform>

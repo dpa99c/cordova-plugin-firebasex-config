@@ -35,9 +35,16 @@ or by running:
 
 **This module depends on `cordova-plugin-firebasex-core` which will be installed automatically as a dependency.**
 
+## Plugin variables
+
+| Variable | Default | Description |
+|---|---|---|
+| `ANDROID_FIREBASE_CONFIG_VERSION` | `23.0.1` | Android Firebase Remote Config SDK version. |
+| `IOS_FIREBASE_SDK_VERSION` | `12.9.0` | iOS Firebase SDK version (for config pod). |
+
 # API
 
-The following methods are available via the `FirebasexConfigPlugin` global object.
+The following methods are available via the `FirebasexConfig` global object.
 
 ## fetch
 
@@ -51,7 +58,7 @@ Fetch Remote Config parameter values for your app:
 -   {function} error - callback function which will be passed a {string} error message as an argument
 
 ```javascript
-FirebasexConfigPlugin.fetch(
+FirebasexConfig.fetch(
     function () {
         // success callback
     },
@@ -60,7 +67,7 @@ FirebasexConfigPlugin.fetch(
     }
 );
 // or, specify the cacheExpirationSeconds
-FirebasexConfigPlugin.fetch(
+FirebasexConfig.fetch(
     600,
     function () {
         // success callback
@@ -81,7 +88,7 @@ Activate the Remote Config fetched config:
 -   {function} error - callback function which will be passed a {string} error message as an argument
 
 ```javascript
-FirebasexConfigPlugin.activateFetched(
+FirebasexConfig.activateFetched(
     function (activated) {
         // activated will be true if there was a fetched config activated,
         // or false if no fetched config was found, or the fetched config was already activated.
@@ -103,7 +110,7 @@ Fetches and activates the Remote Config in a single operation.
 -   {function} error - callback function which will be passed a {string} error message as an argument
 
 ```javascript
-FirebasexConfigPlugin.fetchAndActivate(
+FirebasexConfig.fetchAndActivate(
     function (activated) {
         // activated will be true if there was a fetched config activated,
         // or false if no fetched config was found, or the fetched config was already activated.
@@ -127,7 +134,7 @@ Android only.
 -   {function} error - callback function which will be passed a {string} error message as an argument
 
 ```javascript
-FirebasexConfigPlugin.resetRemoteConfig(
+FirebasexConfig.resetRemoteConfig(
     function () {
         console.log("Successfully reset remote config");
     },
@@ -149,7 +156,7 @@ Retrieve a Remote Config value:
 -   {function} error - callback function which will be passed a {string} error message as an argument
 
 ```javascript
-FirebasexConfigPlugin.getValue(
+FirebasexConfig.getValue(
     "key",
     function (value) {
         console.log(value);
@@ -170,7 +177,7 @@ Get the current state of the FirebaseRemoteConfig singleton object:
 -   {function} error - callback function which will be passed a {string} error message as an argument
 
 ```javascript
-FirebasexConfigPlugin.getInfo(
+FirebasexConfig.getInfo(
     function (info) {
         // how many (secs) fetch cache is valid and data will not be refetched
         console.log(info.configSettings.minimumFetchInterval);
@@ -201,7 +208,7 @@ Returns all Remote Config as key/value pairs.
 -   {function} error - callback function which will be passed a {string} error message as an argument
 
 ```javascript
-FirebasexConfigPlugin.getAll(
+FirebasexConfig.getAll(
     function (values) {
         for (var key in values) {
             console.log(key + "=" + values[key]);
@@ -237,7 +244,7 @@ Changes the default Remote Config settings:
 ```javascript
 var fetchTimeout = 60;
 var minimumFetchInterval = 3600;
-FirebasexConfigPlugin.setConfigSettings(
+FirebasexConfig.setConfigSettings(
     fetchTimeout,
     minimumFetchInterval,
     function () {
@@ -271,7 +278,7 @@ var defaults = {
     my_json: { foo: "bar" },
 };
 // set defaults
-FirebasexConfigPlugin.setDefaults(defaults);
+FirebasexConfig.setDefaults(defaults);
 ```
 
 # Reporting issues

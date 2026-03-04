@@ -1,4 +1,4 @@
-interface FirebasexConfigPlugin {
+interface FirebasexConfig {
     fetch(
         cacheExpirationSeconds: number,
         success: () => void,
