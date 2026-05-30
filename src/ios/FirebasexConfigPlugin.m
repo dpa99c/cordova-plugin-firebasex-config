@@ -3,7 +3,7 @@
  * @brief iOS implementation of the FirebaseX Remote Config Cordova plugin.
  */
 #import "FirebasexConfigPlugin.h"
-#import "FirebasexCorePlugin.h"
+@import cordova_plugin_firebasex_core;
 @import FirebaseRemoteConfig;
 
 @implementation FirebasexConfigPlugin
