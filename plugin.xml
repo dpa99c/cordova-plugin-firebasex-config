@@ -30,7 +30,7 @@
             </feature>
         </config-file>
 
-        <preference name="ANDROID_FIREBASE_CONFIG_VERSION" default="23.0.1" />
+        <preference name="ANDROID_FIREBASE_CONFIG_VERSION" default="23.1.0" />
 
         <framework src="com.google.firebase:firebase-config:$ANDROID_FIREBASE_CONFIG_VERSION" />
         <source-file src="src/android/FirebasexConfigPlugin.java"
